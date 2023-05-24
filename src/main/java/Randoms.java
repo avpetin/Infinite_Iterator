@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Randoms implements Iterable<Integer> {
     protected Random random = new Random();
-    protected int min, max;
-    List<Integer> randomNumbers = new ArrayList<>();
+    private final List<Integer> randomNumbers = new ArrayList<>();
+    private final int min, max;
 
     public Randoms(int min, int max) {
         this.min = min;
@@ -16,17 +16,17 @@ public class Randoms implements Iterable<Integer> {
     @Override
     public Iterator<Integer> iterator() {
         return new Iterator<>() {
-            private int nextValue = 0;
-
             @Override
             public boolean hasNext() {
                 randomNumbers.add(random.nextInt((max - min) + 1) + min);
-                return nextValue < randomNumbers.size();
+                return true;
             }
 
             @Override
             public Integer next() {
-                return randomNumbers.get(nextValue++);
+                int value = randomNumbers.get(0);
+                randomNumbers.remove(0);
+                return value;
             }
         };
     }
